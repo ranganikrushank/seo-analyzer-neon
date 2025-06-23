@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Interactive SEO Charts</title>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .chart-container {
+      padding: 30px;
+    }
+    .chart-box {
+      background: white;
+      padding: 20px;
+      margin-bottom: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="/dashboard_premium">🚀 Premium SEO Tools</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#premiumNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="premiumNavbar">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link text-white" href="/dashboard_premium">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/link-audit">Link Audit</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/mobile-audit">Mobile Audit</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/charts">Interactive Charts</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/competitor">Competitor Comparison</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/pdf_report?target=https://example.com">PDF Report</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/speed-insights">Speed Insights</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/seo-chatbot">AI SEO Assistant</a></li>
+        <li class="nav-item"><a class="nav-link text-warning" href="/logout">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container chart-container">
+  <h2 class="text-center mb-4">📊 Interactive SEO Analysis Charts</h2>
+
+  <form method="POST" class="mb-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <input type="url" name="url" class="form-control" placeholder="Enter URL (e.g. https://example.com)" required>
+      </div>
+      <div class="col-md-2 mt-2 mt-md-0">
+        <button type="submit" class="btn btn-primary w-100">Analyze</button>
+      </div>
+    </div>
+  </form>
+
+  {% if chart_data %}
+
+    <!-- ✅ Top Keywords Table (Replaces Keyword Density Chart) -->
+    {% if chart_data.keyword_density %}
+    <div class="chart-box">
+      <h5 class="mb-3">🔍 Top Keywords</h5>
+      <div class="row">
+        {% set keywords = chart_data.keyword_density %}
+        {% set column_count = 3 %}
+        {% set rows_per_column = 5 %}
+        {% for col in range(column_count) %}
+          <div class="col-md-4">
+            <table class="table table-bordered">
+              <thead class="table-light">
+                <tr>
+                  <th>Keyword</th>
+                  <th>Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for i in range(rows_per_column) %}
+                  {% set index = col * rows_per_column + i %}
+                  {% if index < keywords|length %}
+                    <tr>
+                      <td>{{ keywords[index][0] }}</td>
+                      <td>{{ keywords[index][1] }}</td>
+                    </tr>
+                  {% endif %}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="chart-box">
+      <h5>Links Distribution</h5>
+      <div id="links_chart" style="width: 100%; height: 400px;"></div>
+    </div>
+
+    <div class="chart-box">
+      <h5>Mobile Issues</h5>
+      <div id="mobile_chart" style="width: 100%; height: 400px;"></div>
+    </div>
+
+    <div class="chart-box">
+      <h5>Readability by Section</h5>
+      <div id="readability_chart" style="width: 100%; height: 400px;"></div>
+    </div>
+
+    <div class="chart-box">
+      <h5>Image Alt Attribute Coverage</h5>
+      <div id="alt_chart" style="width: 100%; height: 400px;"></div>
+    </div>
+
+    <div class="chart-box">
+      <h5>Page Load Speed Score</h5>
+      <div id="speed_chart" style="width: 100%; height: 400px;"></div>
+    </div>
+  {% elif target_url %}
+    <div class="alert alert-warning text-center mt-4">
+      No chart data found for <strong>{{ target_url }}</strong>. Try a different URL.
+    </div>
+  {% endif %}
+</div>
+
+<!-- Additional Charts -->
+<div class="chart-box">
+  <h5>Meta Tag Analysis</h5>
+  <div id="meta_chart" style="width: 100%; height: 400px;"></div>
+</div>
+
+<div class="chart-box">
+  <h5>Heading Structure</h5>
+  <div id="heading_chart" style="width: 100%; height: 400px;"></div>
+</div>
+
+<div class="chart-box">
+  <h5>Word Count by Section</h5>
+  <div id="wordcount_chart" style="width: 100%; height: 400px;"></div>
+</div>
+
+<div class="chart-box">
+  <h5>Internal vs External Links</h5>
+  <div id="internal_external_chart" style="width: 100%; height: 400px;"></div>
+</div>
+
+<div class="chart-box">
+  <h5>HTTPS vs HTTP Usage</h5>
+  <div id="https_chart" style="width: 100%; height: 400px;"></div>
+</div>
+
+<div class="chart-box">
+  <h5>Canonical Tag Presence</h5>
+  <div id="canonical_chart" style="width: 100%; height: 400px;"></div>
+</div>
+
+
+
+
+<script>
+
+  window.onload = function() {
+    if (!window.performance || performance.navigation.type === 2) {
+      // Reload page on back button to trigger server check
+      window.location.reload(true);
+    }
+  };
+
+  
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawCharts);
+
+  function drawCharts() {
+    drawLinksChart();
+    drawMobileChart();
+    drawReadabilityChart();
+    drawAltChart();
+    drawSpeedChart();
+    drawMetaChart();
+    drawHeadingChart();
+    drawWordCountChart();
+    drawInternalExternalChart();
+    drawHttpsChart();
+    drawCanonicalChart();
+  }
+
+  function drawLinksChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Type', 'Count'],
+      {% for label, value in chart_data.links_distribution %}
+        ['{{ label }}', {{ value }}],
+      {% endfor %}
+    ]);
+    new google.visualization.PieChart(document.getElementById('links_chart')).draw(data, { is3D: true });
+  }
+
+  function drawMobileChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Issue', 'Count'],
+      {% for label, value in chart_data.mobile_issues %}
+        ['{{ label }}', {{ value }}],
+      {% endfor %}
+    ]);
+    new google.visualization.BarChart(document.getElementById('mobile_chart')).draw(data, {});
+  }
+
+  function drawReadabilityChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Section', 'Score'],
+      {% for label, value in chart_data.readability_sections %}
+        ['{{ label }}', {{ value }}],
+      {% endfor %}
+    ]);
+    new google.visualization.ColumnChart(document.getElementById('readability_chart')).draw(data, {});
+  }
+
+  function drawAltChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Status', 'Count'],
+      {% for label, value in chart_data.image_alt_coverage %}
+        ['{{ label }}', {{ value }}],
+      {% endfor %}
+    ]);
+    new google.visualization.PieChart(document.getElementById('alt_chart')).draw(data, {
+      pieHole: 0.4,
+      colors: ['#2196f3', '#f44336'],
+      animation: { startup: true, duration: 1000 }
+    });
+  }
+
+  function drawSpeedChart() {
+    {% if chart_data.page_load_speed is defined %}
+    var data = google.visualization.arrayToDataTable([
+      ['Metric', 'Score'],
+      ['Page Load Score', {{ chart_data.page_load_speed.value }}],
+      ['Remaining', {{ 10 - chart_data.page_load_speed.value }}]
+    ]);
+    new google.visualization.PieChart(document.getElementById('speed_chart')).draw(data, {
+      pieHole: 0.4,
+      colors: ['#4caf50', '#ddd'],
+      animation: { startup: true, duration: 1000 }
+    });
+    {% endif %}
+  }
+
+  function drawMetaChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Tag', 'Count'],
+      {% for label, value in chart_data.meta_tags %}
+        ['{{ label }}', {{ value }}],
+      {% endfor %}
+    ]);
+    new google.visualization.BarChart(document.getElementById('meta_chart')).draw(data, {});
+  }
+
+  function drawHeadingChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Heading', 'Count'],
+      {% for label, value in chart_data.headings %}
+        ['{{ label }}', {{ value }}],
+      {% endfor %}
+    ]);
+    new google.visualization.ColumnChart(document.getElementById('heading_chart')).draw(data, {});
+  }
+
+  function drawWordCountChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Section', 'Words'],
+      {% for label, value in chart_data.word_count %}
+        ['{{ label }}', {{ value }}],
+      {% endfor %}
+    ]);
+    new google.visualization.BarChart(document.getElementById('wordcount_chart')).draw(data, {});
+  }
+
+  function drawInternalExternalChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Type', 'Count'],
+      {% for label, value in chart_data.internal_external_links %}
+        ['{{ label }}', {{ value }}],
+      {% endfor %}
+    ]);
+    new google.visualization.PieChart(document.getElementById('internal_external_chart')).draw(data, {});
+  }
+
+  function drawHttpsChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Protocol', 'Count'],
+      {% for label, value in chart_data.https_usage %}
+        ['{{ label }}', {{ value }}],
+      {% endfor %}
+    ]);
+    new google.visualization.PieChart(document.getElementById('https_chart')).draw(data, {});
+  }
+
+  function drawCanonicalChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Status', 'Count'],
+      {% for label, value in chart_data.canonical_tags %}
+        ['{{ label }}', {{ value }}],
+      {% endfor %}
+    ]);
+    new google.visualization.PieChart(document.getElementById('canonical_chart')).draw(data, {});
+  }
+</script>
+
+</body>
+</html>

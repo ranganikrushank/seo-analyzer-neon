@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Speed Insights Breakdown</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(to right, #f8f9fa, #e8f0ff);
+      font-family: 'Segoe UI', sans-serif;
+    }
+    h2 {
+      font-weight: 800;
+      color: #343a40;
+      background: -webkit-linear-gradient(#007bff, #6610f2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .card-custom {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+    .metric-label {
+      font-weight: 600;
+      text-align: left;
+      color: #495057;
+    }
+    .badge {
+      font-size: 0.95rem;
+    }
+    .highlight {
+      background: #f0f5ff;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .list-unstyled code {
+      font-size: 0.85rem;
+      color: #0d6efd;
+    }
+    .table-hover tbody tr:hover {
+      background-color: #f1f3f5;
+    }
+    .btn-primary {
+      background: linear-gradient(to right, #007bff, #6610f2);
+      border: none;
+      font-weight: 600;
+      border-radius: 10px;
+    }
+    input.form-control {
+      border-radius: 10px;
+      border: 1px solid #ced4da;
+    }
+  </style>
+</head>
+<body>
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="/dashboard_premium">🚀 Premium SEO Tools</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#premiumNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="premiumNavbar">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link text-white" href="/dashboard_premium">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/link-audit">Link Audit</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/mobile-audit">Mobile Audit</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/charts">Interactive Charts</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/competitor">Competitor Comparison</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/pdf_report?target=https://example.com">PDF Report</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/speed-insights">Speed Insights</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/seo-chatbot">AI SEO Assistant</a></li>
+        <li class="nav-item"><a class="nav-link text-warning" href="/logout">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+
+<div class="container mt-5">
+  <div class="text-center mb-4">
+    <h2>🚀 Speed Insights Breakdown</h2>
+    <p class="text-muted">Audit scripts, blocking resources, mobile readiness, and performance size.</p>
+  </div>
+
+  <form method="POST" class="mb-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8 mb-2">
+        <input name="url" class="form-control form-control-lg" placeholder="🔗 Enter Website URL (e.g., https://example.com)" required>
+      </div>
+      <div class="col-md-3 text-center">
+        <button class="btn btn-primary btn-lg w-100">Analyze</button>
+      </div>
+    </div>
+  </form>
+
+  {% if result %}
+  <div class="card-custom mx-auto">
+    <table class="table table-borderless table-hover align-middle">
+      <tbody>
+        <tr>
+          <td class="metric-label">🌐 URL</td>
+          <td class="highlight">{{ result.url }}</td>
+        </tr>
+        <tr>
+          <td class="metric-label">📦 Total Scripts</td>
+          <td>{{ result.total_scripts }}</td>
+        </tr>
+        <tr>
+          <td class="metric-label">🎨 Total Stylesheets</td>
+          <td>{{ result.total_css }}</td>
+        </tr>
+        <tr>
+          <td class="metric-label">🚫 Blocking JS Files</td>
+          <td>
+            {% if result.blocking_js %}
+              <ul class="list-unstyled">
+                {% for js in result.blocking_js %}
+                  <li><code>{{ js }}</code></li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <span class="badge bg-success">None</span>
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <td class="metric-label">🚫 Blocking CSS Files</td>
+          <td>
+            {% if result.blocking_css %}
+              <ul class="list-unstyled">
+                {% for css in result.blocking_css %}
+                  <li><code>{{ css }}</code></li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <span class="badge bg-success">None</span>
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <td class="metric-label">📂 Estimated Page Size</td>
+          <td><strong>{{ result.total_size_kb }} KB</strong></td>
+        </tr>
+        <tr>
+          <td class="metric-label">⏱️ Estimated Load Time</td>
+          <td><strong>{{ result.load_time }} seconds</strong></td>
+        </tr>
+        <tr>
+          <td class="metric-label">📱 Mobile-Ready</td>
+          <td>
+            {% if result.mobile_ready %}
+              <span class="badge bg-success">Yes ✅</span>
+            {% else %}
+              <span class="badge bg-danger">No ❌</span>
+            {% endif %}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+</div>
+
+
+<form method="POST" action="/export_speed_report/excel">
+  <input type="hidden" name="url" value="{{ result.url }}">
+  <button class="btn btn-success mt-3 me-2">📊 Download Excel with Charts</button>
+</form>
+
+<form method="POST" action="/export_speed_report/csv">
+  <input type="hidden" name="url" value="{{ result.url }}">
+  <button class="btn btn-outline-secondary mt-3">📥 Download CSV</button>
+</form>
+
+<script>
+  window.onload = function() {
+    if (!window.performance || performance.navigation.type === 2) {
+      // Reload page on back button to trigger server check
+      window.location.reload(true);
+    }
+  };
+</script>
+
+
+</body>
+</html>

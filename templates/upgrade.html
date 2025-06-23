@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upgrade to Premium</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      body {
+        background: #f0f4f8;
+        font-family: 'Segoe UI', sans-serif;
+      }
+      .container {
+        max-width: 600px;
+      }
+      /* Card styles */
+      .card {
+        border-radius: 12px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: default;
+      }
+      .card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+      }
+      .card-title {
+        font-weight: 700;
+        color: #0d6efd; /* Bootstrap primary blue */
+      }
+      .display-6 {
+        font-weight: 600;
+        color: #198754; /* Bootstrap green */
+      }
+      /* Button styles */
+      .btn-proceed {
+        display: block;
+        width: 100%;
+        font-size: 1.25rem;
+        font-weight: 600;
+        padding: 12px 0;
+        border-radius: 30px;
+        background: linear-gradient(45deg, #0d6efd, #6610f2);
+        border: none;
+        color: white;
+        transition: background 0.4s ease;
+        margin-top: 1.5rem;
+        box-shadow: 0 6px 12px rgba(13, 110, 253, 0.4);
+      }
+      .btn-proceed:hover {
+        background: linear-gradient(45deg, #6610f2, #0d6efd);
+        box-shadow: 0 10px 20px rgba(102, 16, 242, 0.6);
+      }
+    </style>
+</head>
+<body class="bg-light">
+  <div class="container mt-5 p-4 bg-white rounded shadow-sm">
+    <h2 class="text-center mb-4">💎 Upgrade to Premium</h2>
+
+    <!-- Subscription Plans Showcase -->
+    <div class="mb-4">
+      <h5 class="text-center mb-3">Subscription Plans</h5>
+      <div class="row g-3 justify-content-center">
+        <div class="col-8 col-md-4">
+          <div class="card text-center shadow-sm">
+            <div class="card-body">
+              <h6 class="card-title">1 Month</h6>
+              <p class="display-6 mb-0">₹200</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-8 col-md-4">
+          <div class="card text-center shadow-sm">
+            <div class="card-body">
+              <h6 class="card-title">6 Months</h6>
+              <p class="display-6 mb-0">₹699</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-8 col-md-4">
+          <div class="card text-center shadow-sm">
+            <div class="card-body">
+              <h6 class="card-title">12 Months</h6>
+              <p class="display-6 mb-0">₹1000</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Proceed Button -->
+      <a href="/premium-features" class="btn btn-proceed">View Premium Features</a>
+    </div>
+
+    <p class="text-muted text-center">Send ₹299 to our UPI ID and fill the form or contact us via WhatsApp to request your upgrade.</p>
+
+    <!-- QR & UPI -->
+    <div class="text-center my-3">
+      <img src="/static/qr-code.png" alt="QR Code" class="img-fluid" style="max-width: 200px;">
+    </div>
+
+    <!-- Contact Options -->
+    <div class="text-center mb-4">
+      <p class="fw-semibold">Need instant help?</p>
+      <a href="https://wa.me/917778888578" target="_blank" class="btn btn-success me-2">
+        <i class="fab fa-whatsapp"></i> Message on WhatsApp
+      </a>
+      <a href="mailto:krushankrangani.ai@gmail.com" class="btn btn-outline-primary">
+        <i class="fas fa-envelope"></i> Email Us
+      </a>
+    </div>
+
+  </div>
+
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <script>
+    window.onload = function() {
+      if (!window.performance || performance.navigation.type === 2) {
+        window.location.reload(true);
+      }
+    };
+  </script>
+</body>
+</html>

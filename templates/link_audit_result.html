@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Link Audit Report – SEO Analyzer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(to right, #f0f4f8, #e0eafc);
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .container {
+            margin-top: 40px;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            font-weight: 600;
+        }
+
+        .table thead {
+            background-color: #0d6efd;
+            color: #fff;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f1f9ff;
+        }
+
+        .badge {
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .table-responsive {
+                font-size: 0.85rem;
+            }
+
+            h2 {
+                font-size: 1.25rem;
+                text-align: center;
+            }
+        }
+
+        .back-btn {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+
+    <!-- Navbar for Premium Features -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="/dashboard_premium">🚀 Premium SEO Tools</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#premiumNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="premiumNavbar">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link text-white" href="/dashboard_premium">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/link-audit">Link Audit</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/mobile-audit">Mobile Audit</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/charts">Interactive Charts</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/competitor">Competitor Comparison</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/pdf_report?target=https://example.com">PDF Report</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/speed-insights">Speed Insights</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/seo-chatbot">AI SEO Assistant</a></li>
+        <li class="nav-item"><a class="nav-link text-warning" href="/logout">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="container">
+    <h2 class="mb-4 text-center">
+        🔗 Link Quality Audit<br>
+        <small class="text-muted">{{ target_url }}</small>
+    </h2>
+
+    <div class="table-responsive">
+        {% if audit_data %}
+        <table class="table table-bordered align-middle">
+            <thead>
+                <tr>
+                    <th>Anchor Text</th>
+                    <th>Link URL</th>
+                    <th class="text-center">Nofollow</th>
+                    <th class="text-center">Dofollow</th>
+                    <th class="text-center">Broken</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for link in audit_data %}
+                <tr>
+                    <td>{{ link.text }}</td>
+                    <td><a href="{{ link.url }}" target="_blank">{{ link.url }}</a></td>
+                    <td class="text-center">
+                        {% if link.nofollow %}
+                            <span class="badge bg-warning">Yes</span>
+                        {% else %}
+                            <span class="badge bg-secondary">No</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        {% if link.dofollow %}
+                            <span class="badge bg-success">Yes</span>
+                        {% else %}
+                            <span class="badge bg-secondary">No</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        {% if link.broken %}
+                            <span class="badge bg-danger">Broken</span>
+                        {% else %}
+                            <span class="badge bg-success">Working</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <div class="alert alert-warning text-center">⚠️ No links found on the page.</div>
+        {% endif %}
+    </div>
+
+    <div class="back-btn mt-4">
+        <a href="/premium/link-audit" class="btn btn-outline-primary"><i class="bi bi-arrow-left"></i> New Audit</a>
+    </div>
+</div>
+
+
+<script>
+  window.onload = function() {
+    if (!window.performance || performance.navigation.type === 2) {
+      // Reload page on back button to trigger server check
+      window.location.reload(true);
+    }
+  };
+</script>
+
+
+</body>
+</html>

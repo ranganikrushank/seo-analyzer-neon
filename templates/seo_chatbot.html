@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI SEO Chat Assistant</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body { background: #f4f6f9; font-family: 'Segoe UI', sans-serif; }
+    .chat-container { max-width: 900px; margin: 50px auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 0 15px rgba(0,0,0,0.05); }
+    .chat-bubble { padding: 12px 18px; border-radius: 20px; margin-bottom: 15px; max-width: 75%; }
+    .user-msg { background: #007bff; color: white; align-self: flex-end; margin-left: auto; }
+    .bot-msg { background: #e9ecef; align-self: flex-start; }
+    .chat-box { display: flex; flex-direction: column; }
+    .suggestion-btn { margin: 5px; border-radius: 20px; font-size: 0.95rem; }
+    h3 { font-weight: bold; }
+  </style>
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="/dashboard_premium">🚀 Premium SEO Tools</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#premiumNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="premiumNavbar">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link text-white" href="/dashboard_premium">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/link-audit">Link Audit</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/mobile-audit">Mobile Audit</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/charts">Interactive Charts</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/competitor">Competitor Comparison</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/pdf_report?target=https://example.com">PDF Report</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/speed-insights">Speed Insights</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/seo-chatbot">AI SEO Assistant</a></li>
+        <li class="nav-item"><a class="nav-link text-warning" href="/logout">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+
+<div class="container chat-container">
+  <h3 class="text-center mb-3">🤖 AI SEO Chat Assistant</h3>
+  <p class="text-center text-muted">Click a question below to learn more about SEO. Chat history is saved.</p>
+
+  <!-- Chat History -->
+  <div class="chat-box mb-4">
+    {% for c in chat_history %}
+      <div class="chat-bubble user-msg">{{ c.q }}</div>
+      <div class="chat-bubble bot-msg">{{ c.a }}</div>
+    {% endfor %}
+  </div>
+
+  <!-- Suggested Questions -->
+  <div class="text-center">
+    {% if suggestions %}
+      <form method="POST">
+        {% for q in suggestions %}
+          <button name="question" value="{{ q[0] }}" class="btn btn-outline-primary suggestion-btn">{{ q[0] }}</button>
+        {% endfor %}
+      </form>
+    {% else %}
+      <p class="text-muted">🎉 All 50 questions explored! Refresh to start over.</p>
+    {% endif %}
+  </div>
+</div>
+
+
+
+{% if chat_history %}
+<hr class="my-4" />
+<div class="text-center">
+  <h5>📤 Export Your SEO Chat Report</h5>
+  <a href="/export_chat/excel" class="btn btn-success m-2">Download Excel Report</a>
+  <a href="/export_chat/csv" class="btn btn-outline-secondary m-2">Download CSV</a>
+</div>
+{% endif %}
+
+
+<script>
+  window.onload = function() {
+    if (!window.performance || performance.navigation.type === 2) {
+      // Reload page on back button to trigger server check
+      window.location.reload(true);
+    }
+  };
+</script>
+
+
+</body>
+</html>

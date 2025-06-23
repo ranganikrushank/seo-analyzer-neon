@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Verify Payment Requests</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5 bg-white p-4 rounded shadow-sm">
+    <h2 class="text-center">Admin – Payment Requests</h2>
+    <table class="table table-striped mt-4">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>UPI ID</th>
+                <th>Amount</th>
+                <th>Message</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for req in requests %}
+            <tr>
+                <td>{{ req[1] }}</td>
+                <td>{{ req[2] }}</td>
+                <td>₹{{ req[3] }}</td>
+                <td>{{ req[4] }}</td>
+                <td>{{ req[5] }}</td>
+                <td>
+                    {% if req[5] == 'pending' %}
+                    <form method="POST" class="d-inline">
+                        <input type="hidden" name="request_id" value="{{ req[0] }}">
+                        <button name="action" value="approve" class="btn btn-success btn-sm">Approve</button>
+                        <button name="action" value="reject" class="btn btn-danger btn-sm">Reject</button>
+                    </form>
+                    {% else %}
+                        <span class="badge bg-secondary">{{ req[5].capitalize() }}</span>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+  window.onload = function() {
+    if (!window.performance || performance.navigation.type === 2) {
+      // Reload page on back button to trigger server check
+      window.location.reload(true);
+    }
+  };
+</script>
+
+
+
+</body>
+</html>

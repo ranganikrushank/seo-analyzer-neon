@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SEO Analysis Result</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: #f7f9fc;
+      padding: 2rem;
+    }
+    .card-box {
+      background: white;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2 class="text-center mb-3">🔍 SEO Analysis for <span class="text-primary">{{ url }}</span></h2>
+  <h4 class="text-success text-center mb-4">SEO Score: {{ score }}/100</h4>
+
+  <div class="text-center my-4">
+    <img src="{{ screenshot_url }}" class="img-fluid rounded" style="max-width: 85%;">
+  </div>
+
+  <div class="card-box mt-4">
+    <h5 class="text-dark fw-bold mb-3">⚡ Summary</h5>
+    <ul class="list-group">
+      <li class="list-group-item d-flex justify-content-between">
+        <strong>Title Length</strong>
+        <span>{{ report.get('title_len', 'N/A') }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between">
+        <strong>Description Length</strong>
+        <span>{{ report.get('desc_len', 'N/A') }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between">
+        <strong>Word Count</strong>
+        <span>{{ report.get('word_count', 'N/A') }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between">
+        <strong>Internal Links</strong>
+        <span>{{ report.get('internal_links', 'N/A') }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between">
+        <strong>External Links</strong>
+        <span>{{ report.get('external_links', 'N/A') }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between">
+        <strong>Speed Score</strong>
+        <span>{{ report.get('speed_score', 'N/A') }}/10</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="alert alert-info mt-4 text-center">
+    Want to see <strong>interactive charts, keyword breakdowns</strong>, and export PDF or Excel?
+    <br>
+    <a href="/upgrade" class="btn btn-outline-primary mt-2">Upgrade to Premium</a>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Premium Dashboard – SEO Analyzer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f8fc;
+        }
+        .feature-card {
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            background-color: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+        .feature-card:hover {
+            transform: scale(1.02);
+        }
+        .feature-icon {
+            font-size: 30px;
+            color: #4a90e2;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary px-4">
+        <a class="navbar-brand" href="/">SEO AI Analyzer</a>
+        <div class="ms-auto">
+            <span class="text-white me-3">Welcome, {{ session['username'] }}</span>
+            <a href="/logout" class="btn btn-sm btn-light">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <h2 class="text-center mb-5 text-primary">🌟 Welcome to Your Premium Dashboard</h2>
+
+        <div class="row">
+            <div class="col-md-6">
+            <div class="feature-card shadow-sm border rounded p-4 text-center bg-white h-100">
+                <i class="bi bi-link-45deg feature-icon" style="font-size: 2rem; color: #0d6efd;"></i>
+                <h5 class="mt-3 fw-semibold">Advanced Link Quality Audit</h5>
+                <p class="text-muted small">
+                    Analyze broken links, anchor text, and <code>nofollow/dofollow</code> types with full report.
+                </p>
+                <form action="/premium/link-audit" method="POST" class="d-flex flex-column gap-2">
+                    <input type="url" name="url" class="form-control" placeholder="Enter website URL" required>
+                    <button type="submit" class="btn btn-primary btn-sm">Audit Now</button>
+                </form>
+            </div>
+        </div>
+
+
+            <div class="col-md-6">
+                <div class="feature-card">
+                    <i class="bi bi-phone feature-icon"></i>
+                    <h5 class="mt-2">Full Mobile Optimization Audit</h5>
+                    <p>Analyze mobile usability, responsive design, and tap targets.</p>
+                    <a href="/premium/mobile-audit" class="btn btn-outline-primary btn-sm">Check Now</a>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="feature-card">
+                    <i class="bi bi-bar-chart-line feature-icon"></i>
+                    <h5 class="mt-2">Interactive Google Charts</h5>
+                    <p>View animated SEO charts with zoom and interaction.</p>
+                    <a href="/premium/charts" class="btn btn-outline-primary btn-sm">View Charts</a>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="feature-card">
+                    <i class="bi bi-layers feature-icon"></i>
+                    <h5 class="mt-2">Competitor SEO Comparison</h5>
+                    <p>Compare your SEO metrics with top competitors.</p>
+                    <a href="/premium/compare-competitor" class="btn btn-outline-primary btn-sm">Compare</a>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="feature-card">
+                    <i class="bi bi-lightning-charge feature-icon"></i>
+                    <h5 class="mt-2">Speed Insights Breakdown</h5>
+                    <p>Audit scripts, CSS/JS blocking, and server performance.</p>
+                    <a href="/premium/speed-insights" class="btn btn-outline-primary btn-sm">Analyze</a>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="feature-card">
+                    <i class="bi bi-chat-dots feature-icon"></i>
+                    <h5 class="mt-2">AI SEO Chat Assistant</h5>
+                    <p>Ask questions like “Why is my page slow?” or “How to improve titles?”</p>
+                    <a href="/premium/seo-chatbot" class="btn btn-outline-primary btn-sm">Open Assistant</a>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="feature-card">
+                    <i class="bi bi-table feature-icon"></i>
+                    <h5 class="mt-2">Export to CSV/Excel</h5>
+                    <p>Download full reports for documentation or sharing.</p>
+                    <a href="/premium/export" class="btn btn-outline-primary btn-sm">Export</a>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="feature-card">
+                    <i class="bi bi-clock-history feature-icon"></i>
+                    <h5 class="mt-2">Saved History of Past Analyses</h5>
+                    <p>View your SEO progress and filter by date.</p>
+                    <a href="/premium/history" class="btn btn-outline-primary btn-sm">View History</a>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="feature-card">
+                    <i class="bi bi-pencil-square feature-icon"></i>
+                    <h5 class="mt-2">Content Readability & AI Suggestions</h5>
+                    <p>Improve content using Flesch score & AI tips.</p>
+                    <a href="/premium/readability" class="btn btn-outline-primary btn-sm">Improve Now</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <a href="/" class="btn btn-secondary">Back to Home</a>
+        </div>
+    </div>
+
+
+    <script>
+  window.onload = function() {
+    if (!window.performance || performance.navigation.type === 2) {
+      // Reload page on back button to trigger server check
+      window.location.reload(true);
+    }
+  };
+</script>
+
+</body>
+</html>

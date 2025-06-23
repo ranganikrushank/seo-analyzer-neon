@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{% block title %}SEO AI Analyzer{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Tailwind via CDN for quick prototyping -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css', _external=True) }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="shortcut icon" type="image/x-icon" href="/static/images/image.png">
+  </head>
+
+  
+  <body class="min-h-screen bg-gray-100 flex flex-col">
+    <nav class="bg-gradient-to-r from-indigo-600 to-purple-600 px-4 py-3 flex justify-between items-center shadow-lg">
+  <!-- Logo / Brand -->
+  <div class="text-white text-2xl font-bold tracking-wide">
+    SEO <span class="text-yellow-300">AI</span> Analyzer
+  </div>
+
+  <!-- Right Side: Plan Status & Actions -->
+  <div class="flex items-center space-x-4">
+    <!-- Show Plan -->
+    {% if session.get("plan") == "premium" %}
+      <span class="text-sm bg-green-600 text-white px-3 py-1 rounded-full">Premium User</span>
+      <a href="/premium_features" class="bg-white text-indigo-600 font-medium px-4 py-2 rounded shadow hover:bg-gray-100 transition">
+        Premium Tools
+      </a>
+    {% else %}
+      <span class="text-sm bg-yellow-500 text-white px-3 py-1 rounded-full">Free Plan</span>
+      <a href="/upgrade" class="bg-white text-red-600 font-medium px-4 py-2 rounded shadow hover:bg-gray-100 transition">
+        Upgrade
+      </a>
+    {% endif %}
+
+    <!-- Logout -->
+    <a href="/logout" class="bg-gray-100 text-gray-700 px-4 py-2 rounded hover:bg-gray-200 transition">
+      Logout
+    </a>
+  </div>
+</nav>
+
+
+    
+
+    <main class="flex-1 container mx-auto p-6">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="mb-4">
+            {% for category, msg in messages %}
+              <div class="rounded p-3
+                  {% if category == 'error' %}bg-red-100 text-red-800
+                  {% else %}bg-green-100 text-green-800{% endif %}">
+                {{ msg }}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </main>
+
+    
+
+    <footer class="bg-gray-200 text-center py-4 text-sm">
+      © 2025 – Built by Krushank Rangani
+    </footer>
+
+    {% block extra_scripts %}{% endblock %}
+
+  </body>
+
+  <script>
+  window.onload = function() {
+    if (!window.performance || performance.navigation.type === 2) {
+      // Reload page on back button to trigger server check
+      window.location.reload(true);
+    }
+  };
+</script>
+
+</html>

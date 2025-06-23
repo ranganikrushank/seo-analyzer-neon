@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Competitor SEO Comparison</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body { background: #f8f9fa; font-family: 'Segoe UI', sans-serif; }
+    h2 { font-weight: 700; color: #343a40; }
+    .table thead th { background: linear-gradient(to right, #007bff, #6610f2); color: white; font-weight: 600; }
+    .badge { font-size: 1rem; padding: 0.5em 0.75em; }
+    .seo-score-badge { font-size: 1.1rem; background: linear-gradient(to right, #28a745, #218838); color: white; border-radius: 0.5rem; }
+    .metric-label { font-weight: 600; color: #212529; }
+    .form-control { border-radius: 8px; }
+    .btn-primary { padding: 10px 25px; border-radius: 8px; font-weight: 600; }
+    .table-container { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); background: white; border-radius: 12px; padding: 20px; }
+  </style>
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="/dashboard_premium">🚀 Premium SEO Tools</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#premiumNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="premiumNavbar">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link text-white" href="/dashboard_premium">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/link-audit">Link Audit</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/mobile-audit">Mobile Audit</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/charts">Interactive Charts</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/competitor">Competitor Comparison</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/pdf_report?target=https://example.com">PDF Report</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/speed-insights">Speed Insights</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/premium/seo-chatbot">AI SEO Assistant</a></li>
+        <li class="nav-item"><a class="nav-link text-warning" href="/logout">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="container mt-5">
+  <h2 class="text-center mb-4">📊 Competitor SEO Comparison</h2>
+
+  <form method="POST">
+    <div class="row mb-4">
+      <div class="col-md-4 mb-2"><input name="urls" class="form-control" placeholder="Your Website URL" required></div>
+      <div class="col-md-4 mb-2"><input name="urls" class="form-control" placeholder="Competitor 1 URL"></div>
+      <div class="col-md-4 mb-2"><input name="urls" class="form-control" placeholder="Competitor 2 URL"></div>
+    </div>
+    <div class="text-center">
+      <button class="btn btn-primary">🔍 Compare SEO</button>
+    </div>
+  </form>
+
+  {% if results %}
+  <div class="table-responsive mt-5 table-container">
+    <table class="table table-bordered text-center align-middle">
+      <thead>
+        <tr>
+          <th class="text-uppercase">Metric</th>
+          {% for r in results %}
+            <th class="text-uppercase">{{ r.url }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="metric-label">SEO Score</td>
+          {% for r in results %}
+            <td><span class="badge seo-score-badge">{{ r.seo_score }}</span></td>
+          {% endfor %}
+        </tr>
+        <tr><td class="metric-label">Title Length</td>{% for r in results %}<td>{{ r.title_len }}</td>{% endfor %}</tr>
+        <tr><td class="metric-label">Description Length</td>{% for r in results %}<td>{{ r.desc_len }}</td>{% endfor %}</tr>
+        <tr><td class="metric-label">Word Count</td>{% for r in results %}<td>{{ r.word_count }}</td>{% endfor %}</tr>
+        <tr><td class="metric-label">Internal Links</td>{% for r in results %}<td>{{ r.internal_links }}</td>{% endfor %}</tr>
+        <tr><td class="metric-label">External Links</td>{% for r in results %}<td>{{ r.external_links }}</td>{% endfor %}</tr>
+        <tr><td class="metric-label">Speed Score</td>{% for r in results %}<td>{{ r.speed_score }}/10</td>{% endfor %}</tr>
+        {% for i in range(1, 7) %}
+        <tr>
+          <td class="metric-label">H{{ i }} Tags</td>
+          {% for r in results %}
+            <td>
+              {% if r.headings is defined %}
+                {{ r.headings['h' ~ i] }}
+              {% else %}
+                <span class="text-muted">N/A</span>
+              {% endif %}
+            </td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+</div>
+
+
+{% if results %}
+  <form method="POST" action="/export_competitor_report/excel" class="d-inline">
+    {% for r in results %}
+      <input type="hidden" name="urls" value="{{ r.url }}">
+    {% endfor %}
+    <button class="btn btn-success mt-3 me-2">📊 Download Excel with Chart</button>
+  </form>
+
+  <form method="POST" action="/export_competitor_report/csv" class="d-inline">
+    {% for r in results %}
+      <input type="hidden" name="urls" value="{{ r.url }}">
+    {% endfor %}
+    <button class="btn btn-outline-secondary mt-3">📥 Download CSV</button>
+  </form>
+{% endif %}
+
+<script>
+  window.onload = function() {
+    if (!window.performance || performance.navigation.type === 2) {
+      // Reload page on back button to trigger server check
+      window.location.reload(true);
+    }
+  };
+</script>
+
+
+</body>
+</html>

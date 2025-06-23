@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Analyze a URL{% endblock %}
+{% block head %}
+  <link rel="shortcut icon" type="image/x-icon" href="/Uploads/logo.png">
+{% endblock %}
+{% block content %}
+<div class="min-h-screen flex flex-col justify-center items-center bg-gradient-to-r from-indigo-100 via-white to-indigo-100 px-4">
+  <div class="bg-white shadow-lg rounded-lg max-w-2xl w-full p-10">
+    <h1 class="text-4xl font-extrabold text-indigo-700 mb-6 text-center">
+      🔍 SEO Website Analyzer
+    </h1>
+    <p class="text-center text-gray-600 mb-8 text-lg">
+      Enter a URL below to get a comprehensive SEO analysis report.
+    </p>
+
+    <!-- Form Section -->
+    <form action="/dashboard" method="post" class="flex flex-col sm:flex-row gap-4">
+      <input
+        type="url"
+        name="url"
+        placeholder="https://example.com"
+        required
+        class="flex-1 border border-gray-300 rounded-lg px-5 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+      />
+      <button
+        type="submit"
+        class="bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-semibold rounded-lg px-8 py-3 transition"
+      >
+        Analyze Now
+      </button>
+    </form>
+
+    <p class="text-center text-sm text-gray-500 mt-6">
+      🚀 Powered by your SEO analyzer tool. Fast, free, and made simple for everyone.
+    </p>
+  </div>
+</div>
+{% endblock %}
