@@ -14,12 +14,14 @@ from analyzer import analyze_url, prepare_chart_data
 from scoring import score_report
 
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-conn = psycopg2.connect(DATABASE_URL)
-cursor = conn.cursor()
+import os
+import psycopg2
+
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
 def get_db_connection():
     return psycopg2.connect(DATABASE_URL)
+
 
 
 app = Flask(__name__)
@@ -1126,7 +1128,13 @@ def downgrade_expired_subscriptions():
     cursor = conn.cursor()
 
     # Get all premium users with expired subscriptions
-    cursor.execute("SELECT id FROM users WHERE plan = 'premium' AND subscription_ends IS NOT NULL AND datetime(subscription_ends) < datetime('now')")
+    cursor.execute("""
+    SELECT id FROM users
+    WHERE plan = 'premium'
+    AND subscription_ends IS NOT NULL
+    AND subscription_ends < CURRENT_TIMESTAMP
+""")
+
     expired_users = cursor.fetchall()
 
     # Downgrade each expired user
